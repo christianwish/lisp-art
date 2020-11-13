@@ -1,5 +1,5 @@
 ; sbcl --script test.lisp 
 
-(require "test1" "./test/test1.lisp")
+(require "shape" "./test/shape.lisp")
 
-(test1:specs)
+(shape:specs)

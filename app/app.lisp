@@ -6,9 +6,9 @@
 
 (in-package :app)
 
-(require "fp" "./lib/utils/fp.lisp")
-(require "io" "./lib/utils/io.lisp")
-(require "random" "./lib/utils/random.lisp")
+(require "fp" "./utils/fp.lisp")
+(require "io" "./utils/io.lisp")
+(require "random" "./utils/random.lisp")
 
 (defun main (args) 
     (progn 
