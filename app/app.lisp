@@ -6,11 +6,11 @@
 
 (in-package :app)
 
-(require "fp" "./utils/fp.lisp")
 (require "io" "./utils/io.lisp")
 (require "random" "./utils/random.lisp")
 
-(defun main (args) 
-    (progn 
-        (print args)
+(defun main (args)
+    (progn
+        (io:output(io:ask "He?"))
+        (io:output (random:number-to 39))
     ))
