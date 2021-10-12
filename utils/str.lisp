@@ -2,12 +2,11 @@
     (:use :common-lisp)
     (:export
         #:concat-all
-        #:red
-        #:blue
-        #:green
-        #:cyan
-        #:yellow
-        #:purple
+        #:format-red
+        #:format-green
+        #:format-cyan
+        #:format-yellow
+        #:format-purple
         ))
 
 (in-package :str)
@@ -18,26 +17,18 @@
         (concatenate 'string (first xs)
             (apply #'concat-all (rest xs) ))))
 
-(defun red (str)
-    (format t
-     (concat-all "~c[31m" str "~c[0m~%") #\ESC #\ESC))
 
-(defun blue (str)
-    (format t
-     (concat-all "~c[34m" str "~c[0m~%") #\ESC #\ESC))
+(defmacro make-format-color (&rest colors)
+    "generates helper functions for printing colorful output"
+    (let ((color-fn #'(lambda (color)
+        (let (
+            (fn-name (read-from-string (concat-all "format-" (first color))))
+            (color-code (second color))
+            )
+            `(defun ,fn-name (txt)
+                (format nil (concat-all "~c[" ,color-code "m" txt "~c[0m") #\ESC #\ESC))
+        )
+        )))
+        `(progn ,@(mapcar color-fn colors))))
 
-(defun green (str)
-    (format t
-     (concat-all "~c[32m" str "~c[0m~%") #\ESC #\ESC))
-
-(defun cyan (str)
-    (format t
-     (concat-all "~c[36m" str "~c[0m~%") #\ESC #\ESC))
-
-(defun yellow (str)
-    (format t
-     (concat-all "~c[33m" str "~c[0m~%") #\ESC #\ESC))
-
-(defun purple (str)
-    (format t
-     (concat-all "~c[35m" str "~c[0m~%") #\ESC #\ESC))
+(make-format-color ("cyan" "96") ("green" "32") ("purple" "35") ("yellow" "33") ("red" "31"))

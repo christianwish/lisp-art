@@ -2,8 +2,8 @@
     (:use :common-lisp)
     (:export
         #:ask
-        #:output
         #:ask-with-default
+        #:output
         ))
 
 (in-package :io)
@@ -23,7 +23,12 @@
             (if (equal answer "") default-value answer))
     ) result))
 
-(defun output (object)
-    :documentation "prints strings, list, plist"
+(defgeneric output (object))
+
+(defmethod output ((object string))
+    (format t object)
+    (terpri t))
+
+(defmethod output (object)
     (print object)
     (terpri t))
