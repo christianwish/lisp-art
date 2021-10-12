@@ -1,16 +1,11 @@
-(defpackage :shape (:use :common-lisp) (:export #:specs))
+(defpackage :shape
+  (:use :common-lisp)
+  (:export #:specs #:shape-spec))
 
-(in-package :shape)
+(load "test/tdd.lisp")
 
-(require "tdd" "test/tdd.lisp")
-
-(defun specs ()
-    (progn
-        (tdd:test "shape"
-            (tdd:it "tests working" (= 2 2))
-            (tdd:it "still working" (= 5 5)))))
-
-;; (deftest "shape-spec"
-;;     ("test working" (= 2 2))
-
-;;     )
+(deftest shape-spec
+  :describe "creates shape data"
+  :tests (
+    (:test "tests working" :actual 2 :expected 2)
+  ))
