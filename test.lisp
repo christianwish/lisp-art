@@ -1,4 +1,4 @@
 ;sbcl --script ./test.lisp
-(load "./test/shape.lisp")
+(load "./test/point.lisp")
 
-(shape-spec)
+(point-specs)
