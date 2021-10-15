@@ -4,4 +4,4 @@
     (random end)))
 
 (defun random-number-between (start end)
-  (+ (number-to (- end start)) start))
+  (+ (random-number-to (- end start)) start))

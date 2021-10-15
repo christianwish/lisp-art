@@ -5,8 +5,8 @@
 (in-package :app)
 
 (require "io" "./src/io.lisp")
-(require "random" "./src/random.lisp")
 (require "str" "./src/str.lisp")
+(load "./src/point.lisp")
 
 (defun get-artwork-parameter ()
   (list
@@ -19,4 +19,6 @@
   (io:output (str:format-cyan "First I need some infos
 for creating the artwork:"))
   (io:output (str:format-yellow "-------------------------"))
-  (io:output (get-artwork-parameter)))
+  (io:output (get-artwork-parameter))
+  (io:output (create-next-point
+               :points (list (list 2 4) (list 5 8)) :artwork-width 20 :artwork-height 20)))

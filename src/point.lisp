@@ -69,3 +69,27 @@
          (x (point/x point))
          (y (point/y point)))
     (and (>= x x1) (<= x x2) (>= y y1) (<= y y2))))
+
+(defun random-point-in-rect (r)
+  (point
+    :x (random-number-between (rect/x1 r) (rect/x2 r))
+    :y (random-number-between (rect/y1 r) (rect/y2 r))))
+
+(defun create-next-point (&key points artwork-width artwork-height)
+  (let* ((areas (calc-next-point-areas
+                  :points points
+                  :artwork-width artwork-width
+                  :artwork-height artwork-height))
+         (yes-react (first areas))
+         (no-area (second areas))
+         (last-two-points (last points 2))
+         (p1 (first last-two-points))
+         (p2 (second last-two-points))
+         (points-distance (hypotenuse-length :point1 p1 :point2 p2)))
+    (defun run! () (let* ((random-point (random-point-in-rect yes-react))
+                          (distance-to-p1 (hypotenuse-length :point1 p1 :point2 random-point))
+                          (valid-point-p
+                            (and (> distance-to-p1 points-distance)
+                                 (not (point-in-rect-p :rect no-area :point random-point)))))
+                   (if valid-point-p random-point (run!))))
+      (run!)))
