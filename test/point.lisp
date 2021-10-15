@@ -87,7 +87,34 @@ Needs at least two points"
       :expected '(((2 0) (10 5)) ((2 3) (4 5))))
   ))
 
+(deftest point-in-rect-p-spec
+  :func point-in-rect-p
+  :describe "Is a given point in a given rect?"
+  :tests (
+    (
+      :test "(5 5) in (0 0) (10 10)"
+      :is-true (point-in-rect-p
+                  :point (point :x 5 :y 5)
+                  :rect (rect :x1 0 :y1 0 :x2 10 :y2 10)))
+    (
+      :test "(15 5) in (0 0) (10 10)"
+      :is-true (not (point-in-rect-p
+                  :point (point :x 15 :y 5)
+                  :rect (rect :x1 0 :y1 0 :x2 10 :y2 10))))
+    (
+      :test "(-5 5) in (0 0) (10 10)"
+      :is-true (not (point-in-rect-p
+                  :point (point :x -5 :y 5)
+                  :rect (rect :x1 0 :y1 0 :x2 10 :y2 10))))
+    (
+      :test "(5 15) in (0 0) (10 10)"
+      :is-true (not (point-in-rect-p
+                  :point (point :x 5 :y 15)
+                  :rect (rect :x1 0 :y1 0 :x2 10 :y2 10))))
+  ))
+
 (defun point-specs ()
   (make-point-between-spec)
   (hypotenuse-length-spec)
-  (calc-next-point-areas-spec))
+  (calc-next-point-areas-spec)
+  (point-in-rect-p-spec))

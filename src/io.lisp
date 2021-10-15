@@ -18,10 +18,9 @@
 
 ;; reads user input and if nothing was typed, default-value will be used
 (defun ask-with-default (question default-value)
-  (let* (
-      (answer (ask (str:concat-all question " [" default-value "]")))
-      (result (if (equal answer "") default-value answer))
-    ) result))
+  (let* ((answer (ask (str:concat-all question " [" default-value "]")))
+         (result (if (equal answer "") default-value answer)))
+    result))
 
 ;; better print function
 (defgeneric output (object))
