@@ -86,10 +86,32 @@
          (p1 (first last-two-points))
          (p2 (second last-two-points))
          (points-distance (hypotenuse-length :point1 p1 :point2 p2)))
-    (defun run! () (let* ((random-point (random-point-in-rect yes-react))
-                          (distance-to-p1 (hypotenuse-length :point1 p1 :point2 random-point))
-                          (valid-point-p
-                            (and (> distance-to-p1 points-distance)
-                                 (not (point-in-rect-p :rect no-area :point random-point)))))
-                   (if valid-point-p random-point (run!))))
-      (run!)))
+    (defun run! (&optional (rounds 0))
+      (if (>= rounds 1000)
+          (random-point-in-rect yes-react)
+          (let* ((random-point (random-point-in-rect yes-react))
+                 (distance-to-p1 (hypotenuse-length :point1 p1 :point2 random-point))
+                 (valid-point-p
+                    (and (> distance-to-p1 points-distance)
+                         (not (point-in-rect-p :rect no-area :point random-point)))))
+          (if valid-point-p random-point (run! (+ rounds 1))))))
+    (run!)))
+
+(defun create-path (&key artwork-width artwork-height)
+  (let* ((start-points
+            (list
+              (random-point-in-rect (rect :x1 0 :y1 0 :x2 artwork-width :y2 artwork-height))
+              (random-point-in-rect (rect :x1 0 :y1 0 :x2 artwork-width :y2 artwork-height))))
+         (point-length (random-number-between 3 5)))
+
+    (defun run-it (points)
+      (if (= (length points) point-length)
+          points
+          (run-it (append points (list (create-next-point
+                                        :points points
+                                        :artwork-width artwork-width
+                                        :artwork-height artwork-height))))))
+    (run-it start-points)))
+
+(defun remove-zero-points (points)
+  (remove-if (function (lambda (point) (or (= (point/x point) 0) (= (point/y point) 0)))) points))

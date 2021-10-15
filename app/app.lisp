@@ -7,6 +7,7 @@
 (require "io" "./src/io.lisp")
 (require "str" "./src/str.lisp")
 (load "./src/point.lisp")
+(load "./src/svg.lisp")
 
 (defun get-artwork-parameter ()
   (list
@@ -16,9 +17,9 @@
     :max-elements (io:ask-with-default "* max elements" "123")))
 
 (defun main (args)
-  (io:output (str:format-cyan "First I need some infos
-for creating the artwork:"))
-  (io:output (str:format-yellow "-------------------------"))
-  (io:output (get-artwork-parameter))
-  (io:output (create-next-point
-               :points (list (list 2 4) (list 5 8)) :artwork-width 20 :artwork-height 20)))
+;;   (io:output (str:format-cyan "First I need some infos
+;; for creating the artwork:"))
+   (io:output (str:format-yellow "-------------------------"))
+;;   (io:output (get-artwork-parameter))
+  ;;(print (remove-zero-points (create-path :artwork-width 1080 :artwork-height 1080)))
+  (dotimes (i 27) (format t (to-path (remove-zero-points (create-path :artwork-width 1080 :artwork-height 1080))))))
