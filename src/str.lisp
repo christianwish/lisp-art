@@ -1,16 +1,3 @@
-(defpackage :str
-  (:use :common-lisp)
-  (:export
-    #:concat-all
-    #:format-red
-    #:format-green
-    #:format-cyan
-    #:format-yellow
-    #:format-purple
-    ))
-
-(in-package :str)
-
 (defun concat-all (&rest xs)
   (if (= (list-length xs) 0)
     ""

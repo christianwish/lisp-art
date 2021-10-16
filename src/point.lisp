@@ -29,8 +29,8 @@
 (defun calc-next-point-areas
   (&key
     points ;; List of (x y) ;; At least two points!
-    artwork-width
-    artwork-height)
+    width
+    height)
   "Get two areas. the first where a point should be,
   second where this point should not be.
   Returns (((x y) (x y)) ((x y) (x y)))"
@@ -42,9 +42,9 @@
          (y1 (point/y p1))
          (y2 (point/y p2))
          (top-left-x (if (> x2 x1) x1 0))
-         (bottom-right-x (if (> x2 x1) artwork-width x1))
+         (bottom-right-x (if (> x2 x1) width x1))
          (top-left-y (if (> y2 y1) y1 0))
-         (bottom-right-y (if (> y2 y1) artwork-height y1))
+         (bottom-right-y (if (> y2 y1) height y1))
          (top-left-not-x (if (> x2 x1) x1 x2))
          (bottom-right-not-x (if (> x2 x1) x2 x1))
          (top-left-not-y (if (> y2 y1) y1 y2))
@@ -75,11 +75,11 @@
     :x (random-number-between (rect/x1 r) (rect/x2 r))
     :y (random-number-between (rect/y1 r) (rect/y2 r))))
 
-(defun create-next-point (&key points artwork-width artwork-height)
+(defun create-next-point (&key points width height)
   (let* ((areas (calc-next-point-areas
                   :points points
-                  :artwork-width artwork-width
-                  :artwork-height artwork-height))
+                  :width width
+                  :height height))
          (yes-react (first areas))
          (no-area (second areas))
          (last-two-points (last points 2))
@@ -97,20 +97,20 @@
           (if valid-point-p random-point (run! (+ rounds 1))))))
     (run!)))
 
-(defun create-path (&key artwork-width artwork-height)
+(defun create-path-points (&key width height)
   (let* ((start-points
             (list
-              (random-point-in-rect (rect :x1 0 :y1 0 :x2 artwork-width :y2 artwork-height))
-              (random-point-in-rect (rect :x1 0 :y1 0 :x2 artwork-width :y2 artwork-height))))
-         (point-length (random-number-between 3 5)))
+              (random-point-in-rect (rect :x1 0 :y1 0 :x2 width :y2 height))
+              (random-point-in-rect (rect :x1 0 :y1 0 :x2 width :y2 height))))
+         (point-length (random-number-between 3 11)))
 
     (defun run-it (points)
       (if (= (length points) point-length)
           points
           (run-it (append points (list (create-next-point
                                         :points points
-                                        :artwork-width artwork-width
-                                        :artwork-height artwork-height))))))
+                                        :width width
+                                        :height height))))))
     (run-it start-points)))
 
 (defun remove-zero-points (points)

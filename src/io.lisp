@@ -1,14 +1,4 @@
-(defpackage :io
-  (:use :common-lisp)
-  (:export
-    #:ask
-    #:ask-with-default
-    #:output
-    ))
-
-(in-package :io)
-
-(require "str" "./src/str.lisp")
+(load "./src/str.lisp")
 
 ;; reads user input
 (defun ask (question)
@@ -18,7 +8,7 @@
 
 ;; reads user input and if nothing was typed, default-value will be used
 (defun ask-with-default (question default-value)
-  (let* ((answer (ask (str:concat-all question " [" default-value "]")))
+  (let* ((answer (ask (concat-all question " [" default-value "]")))
          (result (if (equal answer "") default-value answer)))
     result))
 
@@ -32,3 +22,12 @@
 (defmethod output (object)
   (print object)
   (terpri t))
+
+(defun write-file (path content)
+  (with-open-file (stream
+                    path
+                    :direction :output    ;; Write to disk
+                    :if-exists :supersede ;; Overwrite the file
+                    :if-does-not-exist :create)
+  (format stream content))
+)

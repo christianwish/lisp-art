@@ -75,15 +75,15 @@ Needs at least two points"
       :test "(4 2) (2 4) in (10 10)"
       :actual (calc-next-point-areas
         :points '((4 2) (2 4))
-        :artwork-width 10
-        :artwork-height 10)
+        :width 10
+        :height 10)
       :expected '(((0 2) (4 10)) ((2 2) (4 4))))
     (
       :test "(2 5) (4 3) in (10 10)"
       :actual (calc-next-point-areas
         :points '((2 5) (4 3))
-        :artwork-width 10
-        :artwork-height 10)
+        :width 10
+        :height 10)
       :expected '(((2 0) (10 5)) ((2 3) (4 5))))
   ))
 
