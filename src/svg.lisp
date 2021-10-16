@@ -4,8 +4,8 @@
 
 (defun d (points &optional (acc ""))
   (if (= (length points) 0)
-      acc
-      ;; (concatenate 'string acc " Z")
+      ;;acc
+      (concatenate 'string acc " Z")
       (let* ((prefix (if (= (length acc) 0) "M" "L"))
              (point (first points))
              (x (write-to-string (first point)))
@@ -23,11 +23,13 @@
 (defun to-path (points)
   (concatenate
     'string
-    "<path fill=\"" (random-rgb 130) "\" stroke=\"" (random-rgb) "\" d=\""
+    "<path fill=\"" (random-rgb 0) "\" stroke=\"" (random-rgb) "\" d=\""
     (d points)
     "\" stroke-width=\""
-    (write-to-string (random-number-between 7 70))
-    "\" />"))
+    (write-to-string (random-number-between 2 100))
+    "\" "
+    "fill-rule=\"nonzero\""
+    "/>"))
 
 (defun svg/path (&key width height)
   (to-path (remove-zero-points (create-path-points :width width :height height))))
@@ -38,7 +40,9 @@
          (w (write-to-string width))
          (file-content (concatenate
                         'string
-                        "<svg height=\"" h "\" "
+                        "<?xml version=\"1.0\"?>"
+                        "<svg xmlns=\"http://www.w3.org/2000/svg\" "
+                        "height=\"" h "\" "
                         "width=\"" w "\" "
                         "viewbox=\"0 0" w " " h "\" >"
                         "<rect height=\"" h "\" "
@@ -48,4 +52,5 @@
                         ))
         (file-name (concatenate 'string "dist/svg/"(write-to-string timestamp) ".svg")))
   (write-file file-name file-content)
+  (sb-ext:run-program "/usr/bin/qlmanage" (list "-t" file-name))
   ))

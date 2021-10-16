@@ -9,15 +9,12 @@
 (load "./src/point.lisp")
 (load "./src/svg.lisp")
 
-(defun get-artwork-parameter ()
-  (list
-    :width (ask-with-default "* width in px" "1080")
-    :height (ask-with-default "* height in px" "1080")
-    :padding (ask-with-default "* padding in px" "20")
-    :max-elements (ask-with-default "* max elements" "123")))
-
 (defun main (args)
-  (let* ((result (list ""))
-         (paths-list (dotimes (i 23) (push (svg/path :width 1080 :height 1080) result)))
-         (paths (apply #'concatenate 'string result)))
-  (create-svg-file paths :width 1080 :height 1080)))
+  (let* ((width (parse-integer (ask-with-default "* width in px" "1080")))
+         (height (parse-integer (ask-with-default "* height in px" "1080")))
+         (max-elements (parse-integer (ask-with-default "* max elements" "7")))
+         (result (list ""))
+         (paths-list (dotimes (i max-elements) (push (svg/path :width width :height height) result)))
+         (paths (apply #'concatenate 'string result))
+         )
+  (create-svg-file paths :width width :height height)))

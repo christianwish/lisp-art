@@ -102,7 +102,7 @@
             (list
               (random-point-in-rect (rect :x1 0 :y1 0 :x2 width :y2 height))
               (random-point-in-rect (rect :x1 0 :y1 0 :x2 width :y2 height))))
-         (point-length (random-number-between 3 11)))
+         (point-length (random-number-between 3 7)))
 
     (defun run-it (points)
       (if (= (length points) point-length)
