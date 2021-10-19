@@ -32,11 +32,11 @@
                 (progn
                   (format t (format-grey "   expected:"))
                   (terpri t )
-                  (format t (format-red expected))
+                  (format t (format-red (write-to-string expected)))
                   (terpri t )
                   (format t (format-grey "   actual:"))
                   (terpri t )
-                  (format t (format-red actual))
+                  (format t (format-red (write-to-string  actual)))
                   (terpri t)
                   (terpri t))))))
 
