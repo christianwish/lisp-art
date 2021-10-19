@@ -11,13 +11,9 @@
      :actual (show (x&y 3 5))
      :expected "(X=3.0,Y=5.0)")
 
-    (:test "gives string for list of point"
+    (:test "gives string for list of points"
      :actual (show (list (x&y 1 2) (x&y 3 4) (x&y 5 6) (x&y 7 8)))
-     :expected "((X=1.0,Y=2.0),(X=3.0,Y=4.0),(X=5.0,Y=6.0),(X=7.0,Y=8.0))")
-
-    (:test "gives string for area"
-     :actual (show (xy&xy 3 5 7 11))
-     :expected "((X=3.0,Y=5.0),(X=7.0,Y=11.0))")))
+     :expected "((X=1.0,Y=2.0),(X=3.0,Y=4.0),(X=5.0,Y=6.0),(X=7.0,Y=8.0))")))
 
 (define-test points-triangle-info-spec
   :func points-triangle-info
