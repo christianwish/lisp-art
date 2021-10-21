@@ -2,9 +2,7 @@
   (:use :common-lisp)
   (:export
     #:point
-    #:area
     #:make-point
-    #:make-area
     #:show
     ))
 
@@ -20,8 +18,7 @@
   (c :accessor c :initarg :c :type float :documentation "the hypotenuse")
   (alpha :accessor alpha :initarg :alpha :type float)
   (beta :accessor beta :initarg :beta :type float)
-  (direction :accessor direction :initarg :direction :type number
-   :documentation "like definition of the quadrant (or 1 2 3 4)")))
+  (alpha-absolute :accessor alpha-absolute :initarg :alpha-absolute :type number)))
 
 (defun make-point (&key x y)
   "Creates a point with given X and Y value"
@@ -36,7 +33,7 @@
     (with-accessors ((x x) (y y)) obj
       (format stream "(X=~a Y=~a)" x y))))
 
-(defun points-triangle-info (point1 point2)
+(defun make-triangle-info (point1 point2)
   "Two points define a triangle"
   (let* ((x1 (x point1))
          (x2 (x point2))
@@ -44,20 +41,27 @@
          (y2 (y point2))
          (a (float (abs (- y1 y2))))
          (b (float (abs (- x1 x2))))
+         (a/b (if (or (= a 0) (= b 0)) 0 (/ a b)))
          (hypotenuse (float (sqrt (+ (* a a) (* b b)))))
-         (alpha (* (atan (/ a b)) (/ 180 pi)))
-         (direction (cond
-                      ((and (<= x1 x2) (>= y1 y2)) 1)
-                      ((and (<= x1 x2) (<= y1 y2)) 2)
-                      ((and (>= x1 x2) (<= y1 y2)) 3)
-                      (t 4))))
+         (alpha (* (atan a/b) (/ 180 pi)))
+         (alpha-absolute
+          (cond
+            ((and (= x1 x2) (= y1 y2)) 0)
+            ((and (= x1 x2) (> y1 y2)) 0)
+            ((and (= x1 x2) (< y1 y2)) 180)
+            ((and (< x1 x2) (= y1 y2)) 90)
+            ((and (> x1 x2) (= y1 y2)) 270)
+            ((and (< x1 x2) (> y1 y2)) (- 90 alpha))
+            ((and (< x1 x2) (< y1 y2)) (+ 90 alpha))
+            ((and (> x1 x2) (< y1 y2)) (- 270 alpha))
+            (t (+ 270 alpha)))))
         (make-instance 'triangle-info
           :a a
           :b b
           :c (float hypotenuse)
           :alpha (float alpha)
-          :beta (- 90 alpha)
-          :direction direction)))
+          :alpha-absolute (float alpha-absolute)
+          :beta (- 90 alpha))))
 
 ;;;; show -------------------------------------------------
 (defgeneric show (obj))
@@ -68,5 +72,5 @@
   (concatenate 'string "(X=" x ",Y=" y ")" )))
 
 (defmethod show ((obj null)) "")
-(defmethod show ((obj cons))
+(defmethod show ((obj cons));; TODO
   (concatenate 'string (show (car obj)) (show (cdr obj))))
