@@ -1,4 +1,3 @@
 ;sbcl --script ./test.lisp
-(load "./test/point.lisp")
-
-(point-specs)
+(load "./packages/random.test.lisp")
+(load "./packages/coordinates.test.lisp")

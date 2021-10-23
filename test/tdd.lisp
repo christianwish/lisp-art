@@ -20,17 +20,17 @@
 (defun check (&key test actual expected (is-true nil true-check) (skip nil skip-check))
   (if skip-check
     (progn
-      (format t (concatenate 'string "*  " (format-grey test)))
+      (format t (concatenate 'string " ⚠️  [TODO]: " (format-grey test)))
       (terpri t))
     (if true-check
       (let* ((format-fn (if is-true #'format-green #'format-red)))
-            (format t "*  ")
+            (format t (if is-true " 🥝  " " 🔴  "))
             (format t (funcall format-fn test))
             (terpri t))
       (let* ((result (equal actual expected))
             (format-fn (if result #'format-green #'format-red)))
-            (format t "*  ")
-            (format t (format-bold (funcall format-fn test)))
+            (format t (if result " 🥝  " " 🔴  "))
+            (format t (funcall format-fn test))
             (terpri t)
             (when (not result)
                   (progn
@@ -44,7 +44,7 @@
                     (terpri t)
                     (terpri t)))))))
 
-(defmacro define-test (test-name &key describe tests func)
+(defmacro define-test (test-name &key describe tests func) ;; TODO :func or :macr
   (let ((test-title (string-downcase (string test-name)))
         (function-title (when func (string-downcase (string func))))
         (to-check #'(lambda (all-checks) `(check ,@all-checks))))
@@ -53,7 +53,11 @@
           (terpri t)
           (format t (format-bg-cyan (format-black ,test-title)))
           (terpri t)
-          (when ,function-title (format t "(~a)" ,(format-magenta (format-italic function-title))))
+          (when
+           ,function-title
+           (format t (format-bg-magenta (format-italic " defun ")))
+           (format t " ")
+           (format t ,(format-magenta (format-italic function-title))))
           (when ,function-title (terpri t))
           (if ,describe (format t (format-yellow ,describe)) (terpri t))
           (when ,describe (terpri t))

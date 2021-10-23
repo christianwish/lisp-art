@@ -44,6 +44,7 @@
          (a/b (if (or (= a 0) (= b 0)) 0 (/ a b)))
          (hypotenuse (float (sqrt (+ (* a a) (* b b)))))
          (alpha (* (atan a/b) (/ 180 pi)))
+         (beta (- 90 alpha))
          (alpha-absolute
           (cond
             ((and (= x1 x2) (= y1 y2)) 0)
@@ -61,7 +62,7 @@
           :c (float hypotenuse)
           :alpha (float alpha)
           :alpha-absolute (float alpha-absolute)
-          :beta (- 90 alpha))))
+          :beta beta)))
 
 ;;;; show -------------------------------------------------
 (defgeneric show (obj))
