@@ -15,9 +15,9 @@
         )))
 
 (defun random-rgb (&optional (a 255))
-(let ((r (write-to-string (random-number-between 0 255)))
-      (g (write-to-string (random-number-between 0 255)))
-      (b (write-to-string (random-number-between 0 255))))
+(let ((r (write-to-string (random-number-from-to 0 255)))
+      (g (write-to-string (random-number-from-to 0 255)))
+      (b (write-to-string (random-number-from-to 0 255))))
   (concatenate 'string "rgba(" r "," g "," b "," (write-to-string a) ")")))
 
 (defun to-path (points)
@@ -26,7 +26,7 @@
     "<path fill=\"" (random-rgb 0) "\" stroke=\"" (random-rgb) "\" d=\""
     (d points)
     "\" stroke-width=\""
-    (write-to-string (random-number-between 2 100))
+    (write-to-string (random-number-from-to 2 100))
     "\" "
     "fill-rule=\"nonzero\""
     "/>"))

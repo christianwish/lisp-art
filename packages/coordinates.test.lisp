@@ -25,13 +25,13 @@
 (define-test make-triangle-info-spec
   :func make-triangle-info
   :tests (
-    (:test "b, Pythagoreisches Tripel (68 285 293)"
-     :actual (triangles-test => b (0 0) (68 285))
-     :expected 68.0)
-
     (:test "a, Pythagoreisches Tripel (68 285 293)"
      :actual (triangles-test => a (0 0) (68 285))
      :expected 285.0)
+
+    (:test "b, Pythagoreisches Tripel (68 285 293)"
+     :actual (triangles-test => b (0 0) (68 285))
+     :expected 68.0)
 
     (:test "c (hypotenuse), Pythagoreisches Tripel (68 285 293)"
      :actual (triangles-test => c (0 0) (68 285))
@@ -100,3 +100,40 @@
     (:test "alpha-absolute of a two indeticals points is rounded 0"
      :actual (triangles-test -> alpha-absolute (10 10) (10 0))
      :expected 0)))
+
+
+(define-test minimum-distance-to-frame-spec
+  :func minimum-distance-to-frame
+  :tests (
+    (:test "(x&y 3 5) 10 10 => 3.0"
+     :actual (minimum-distance-to-frame :point (x&y 3 5) :width 10 :height 10)
+     :expected 3.0)
+
+    (:test "(x&y 7 5) 10 10 => 3.0"
+     :actual (minimum-distance-to-frame :point (x&y 7 5) :width 10 :height 10)
+     :expected 3.0)
+
+    (:test "(x&y 5 9) 10 10 => 1.0"
+     :actual (minimum-distance-to-frame :point (x&y 5 9) :width 10 :height 10)
+     :expected 1.0)))
+
+
+;; (get-next-point :points (list (x&y 2 3) (x&y 4 7))
+;;                 :width 100
+;;                 :height 100)
+
+;; (get-next-point :points (list (x&y 2 3) (x&y 4 7))
+;;                 :width 100
+;;                 :height 100)
+
+;; (get-next-point :points (list (x&y 2 3) (x&y 4 7))
+;;                 :width 100
+;;                 :height 100)
+
+;; (get-next-point :points (list (x&y 2 3) (x&y 4 7))
+;;                 :width 100
+;;                 :height 100)
+
+;; (get-next-point :points (list (x&y 2 3) (x&y 4 7))
+;;                 :width 100
+;;                 :height 100)
