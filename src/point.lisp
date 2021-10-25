@@ -72,8 +72,8 @@
 
 (defun random-point-in-rect (r)
   (point
-    :x (random-number-between (rect/x1 r) (rect/x2 r))
-    :y (random-number-between (rect/y1 r) (rect/y2 r))))
+    :x (random-number-from-to (rect/x1 r) (rect/x2 r))
+    :y (random-number-from-to (rect/y1 r) (rect/y2 r))))
 
 (defun create-next-point (&key points width height)
   (let* ((areas (calc-next-point-areas
@@ -102,7 +102,7 @@
             (list
               (random-point-in-rect (rect :x1 0 :y1 0 :x2 width :y2 height))
               (random-point-in-rect (rect :x1 0 :y1 0 :x2 width :y2 height))))
-         (point-length (random-number-between 3 7)))
+         (point-length (random-number-from-to 3 7)))
 
     (defun run-it (points)
       (if (= (length points) point-length)
