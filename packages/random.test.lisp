@@ -36,11 +36,14 @@
                      (negativeLength (length negative)))
                 (and (= validLength 100) (= negativeLength 100))))
 
-    (:test "gives no zero when :never-zero is true"
+    (:test "gives never zero when :never-zero is true"
      :is-true (let* ((acc (list))
                      (_whatever (dotimes (i 1000) (push (random-number-from-to -33 33 :never-zero t) acc)))
                      (validLength (length (remove-if #'(lambda (x) (= 0 x)) acc))))
                 (= validLength 1000)))
+
+
+
     (:test "works when first number is bigger than second"
      :is-true (let ((result (random-number-from-to 3 2)))
                    (or (= 2 result) (= 3 result))))

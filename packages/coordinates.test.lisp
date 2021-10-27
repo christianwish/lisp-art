@@ -116,3 +116,25 @@
     (:test "(x&y 5 9) 10 10 => 1.0"
      :actual (minimum-distance-to-frame :point (x&y 5 9) :width 10 :height 10)
      :expected 1.0)))
+
+(define-test point-inside-p-spec
+  :func point-inside-p
+  :tests (
+    (:test "(x&y 3 5) 10 10 => t"
+     :is-true (point-inside-p :point (x&y 3 5) :width 10 :height 10))
+
+    (:test "(x&y 5 9) 10 10 => t"
+     :is-true (point-inside-p :point (x&y 5 9) :width 10 :height 10))
+
+    (:test "(x&y -3 9) 10 10 => nil"
+     :is-true (not (point-inside-p :point (x&y -3 9) :width 10 :height 10)))
+
+    (:test "(x&y 3 11) 10 10 => nil"
+     :is-true (not (point-inside-p :point (x&y 3 11) :width 10 :height 10)))
+
+    (:test "(x&y 0 -19) 10 10 => nil"
+     :is-true (not (point-inside-p :point (x&y 0 -19) :width 10 :height 10)))
+
+    (:test "(x&y 13 13) 10 10 => nil"
+     :is-true (not (point-inside-p :point (x&y 13 13) :width 10 :height 10)))
+     ))

@@ -1,15 +1,14 @@
-(load "src/random.lisp")
-(load "src/io.lisp")
-(load "src/point.lisp")
+(load "packages/random")
+(load "packages/coordinates")
 
 (defun d (points &optional (acc ""))
   (if (= (length points) 0)
-      ;;acc
-      (concatenate 'string acc " Z")
+      acc
+      ;;(concatenate 'string acc " Z")
       (let* ((prefix (if (= (length acc) 0) "M" "L"))
              (point (first points))
-             (x (write-to-string (first point)))
-             (y (write-to-string (second point)))
+             (x (format nil "~,5f" (x point)))
+             (y (format nil "~,5f" (y point)))
              (str (concatenate 'string acc prefix x " " y " ")))
             (d (rest points) str)
         )))
@@ -23,7 +22,7 @@
 (defun to-path (points)
   (concatenate
     'string
-    "<path fill=\"" (random-rgb 20) "\" stroke=\"" (random-rgb) "\" d=\""
+    "<path fill=\"" (random-rgb 100) "\" stroke=\"" (random-rgb 0) "\" d=\""
     (d points)
     "\" stroke-width=\""
     (write-to-string (random-number-from-to 2 100))
@@ -32,7 +31,7 @@
     "/>"))
 
 (defun svg/path (&key width height)
-  (to-path (remove-zero-points (create-path-points :width width :height height))))
+  (to-path (create-path-points :width width :height height)))
 
 (defun create-svg-file (content &key width height)
   (let* ((timestamp (get-universal-time))

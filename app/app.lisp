@@ -5,9 +5,7 @@
 (in-package :app)
 
 (load "./src/io.lisp")
-(load "./src/str.lisp")
-(load "./src/point.lisp")
-(load "./src/svg.lisp")
+(load "./packages/svg.lisp")
 
 (defun main (args)
   (let* ((width (parse-integer (ask-with-default "* width in px" "1080")))
